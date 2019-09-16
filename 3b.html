@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+	<head><meta charset="utf-8">
+		<script type="text/javascript">
+			var j, i, p, q = 0;
+			var newWord = "";
+			
+			function start()
+			{
+				var text = "I have a cat named xMeowx and a dog name poofWoof. I love the dog a lot. He is larger than a small horse.";
+				var wordList = ["meow", "woof"];
+				text = text.split(" ");
+				
+				
+				for( j = 0; j < wordList.length; j++ )
+				{
+					for( i = 0; i < text.length; i++ )
+					{
+						if( text[i].toLowerCase().includes( wordList[j].toLowerCase() ) )
+						{
+							censor(text[i], wordList[j]);
+							
+							text[i] = text[i].toLowerCase().replace(wordList[j].toLowerCase(), newWord);
+						}
+					}
+				}
+				
+				text = text.join(" ");
+				document.getElementById("result").innerHTML += text;
+			}
+			
+			function censor(textWord, wordListWord)
+			{
+				newWord = "";
+				
+				for( p = 0; p < wordListWord.length; p++ )
+				{
+					for( q = 0; q < textWord.length; q++ )
+					{
+						if( wordListWord[p].toLowerCase() === textWord[q].toLowerCase() )
+						{
+							if( p == 0 )
+							{
+								newWord = newWord + textWord[q];
+								break;
+							}
+							if( p == wordListWord.length-1 && q != 0 )
+							{
+								newWord = newWord + textWord[q];
+								break;
+							}
+							else if( p != wordListWord.length-1 )
+							{
+								newWord = newWord + "$$";
+								break;
+							}
+						}
+					}
+				}
+			}
+		</script>	
+	</head>
+	
+	<body>	
+		<p id="result"></p>
+		<button value="click" onclick="start()">run</button>
+	</body>
+</html>

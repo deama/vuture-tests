@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+	<head><meta charset="utf-8">
+		<script type="text/javascript">
+			var j, i, p, q = 0;
+			var newWord = "";
+			
+			function start()
+			{
+				var text = "pAnnap went to vote in the election to fulfil her ccivic duty";
+				var wordList = [];
+				text = text.split(" ");
+				
+				
+				for( i = 0; i < text.length; i++ )
+				{
+					if( checkPalindrome(text[i]) )
+					{
+						wordList.push( text[i].toLowerCase().replace(/[^a-z]+/g, "") );
+					}
+				}
+				
+				
+				for( j = 0; j < wordList.length; j++ )
+				{
+					for( i = 0; i < text.length; i++ )
+					{
+						if( text[i].toLowerCase().includes( wordList[j].toLowerCase() ) )
+						{
+							censor(text[i], wordList[j]);
+							
+							text[i] = text[i].toLowerCase().replace(wordList[j].toLowerCase(), newWord);
+						}
+					}
+				}
+				
+				text = text.join(" ");
+				document.getElementById("result").innerHTML += text;
+			}
+			
+			function censor(textWord, wordListWord)
+			{
+				newWord = "";
+				
+				for( p = 0; p < wordListWord.length; p++ )
+				{
+					for( q = 0; q < textWord.length; q++ )
+					{
+						if( wordListWord[p].toLowerCase() === textWord[q].toLowerCase() )
+						{
+							if( p == 0 )
+							{
+								newWord = newWord + textWord[q];
+								break;
+							}
+							if( p == wordListWord.length-1 && q != 0 )
+							{
+								newWord = newWord + textWord[q];
+								break;
+							}
+							else if( p != wordListWord.length-1 )
+							{
+								newWord = newWord + "$$";
+								break;
+							}
+						}
+					}
+				}
+			}
+			
+			function checkPalindrome(text)
+			{
+				var text = text;
+				var text2 = "";
+				var check = true;
+				var i = 0;
+				
+				text = text.toLowerCase().replace(/[^a-z]+/g, "");
+				
+				for( i = text.length-1; i >= 0; i-- )
+				{
+					text2 = text2 + text[i];
+				}
+				
+				
+				for( i = 0; i < text.length; i++ )
+				{
+					if( !(text2[i] === text[i]) )
+					{
+						check = false;
+						break;
+					}
+				}
+				
+				return check;
+			}
+		</script>	
+	</head>
+	
+	<body>	
+		<p id="result"></p>
+		<button value="click" onclick="start()">run</button>
+	</body>
+</html>
